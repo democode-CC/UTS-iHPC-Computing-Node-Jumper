@@ -37,53 +37,7 @@ jump_venus() {
     #   1. User(s) empty (no_user=1 is preferred) - if User column exists
     #   2. Lowest %GPU
     #   3. Lowest %CPU
-    best_node=$(echo "$venus_lines" | awk '
-        BEGIN { OFS="\t" }
-        {
-            node = $1
-            
-            # Determine format based on field count
-            # If 7 columns: Node Status Connect Load1 Load2 %GPU %CPU
-            # If 8+: may include User(s) column
-            if (NF == 7) {
-                # 7-column format: no User column
-                gpu_str = $6  # %GPU
-                cpu_str = $7  # %CPU
-                user = ""
-                no_user = 1
-            } else if (NF >= 8) {
-                # 8+ column format: possibly User column
-                # Assume User is third-to-last, %GPU second-to-last, %CPU last
-                user = $(NF-2)
-                gpu_str = $(NF-1)
-                cpu_str = $NF
-                if (user == "" || user == "-" || user ~ /^[0-9.]+%$/) {
-                    # If user is empty or contains %, it's not a user column
-                    no_user = 1
-                    # Re-parse
-                    gpu_str = $(NF-1)
-                    cpu_str = $NF
-                } else {
-                    no_user = 0
-                }
-            } else {
-                # Other cases
-                gpu_str = $(NF-1)
-                cpu_str = $NF
-                user = ""
-                no_user = 1
-            }
-            
-            # Extract numbers (strip %)
-            gsub("%", "", gpu_str)
-            gsub("%", "", cpu_str)
-            gpu = gpu_str + 0
-            cpu = cpu_str + 0
-            
-            # Output: node, no_user flag, GPU%, CPU%, user list
-            print node, no_user, gpu, cpu, user
-        }
-    ' | sort -t$'\t' -k2,2nr -k3,3n -k4,4n | head -n1)
+    best_node=$(echo "$venus_lines" | awk 'BEGIN { OFS="\t" } { node = $1; if (NF == 7) { gpu_str = $6; cpu_str = $7; user = ""; no_user = 1 } else if (NF >= 8) { user = $(NF-2); gpu_str = $(NF-1); cpu_str = $NF; if (user == "" || user == "-" || user ~ /^[0-9.]+%$/) { no_user = 1; gpu_str = $(NF-1); cpu_str = $NF } else { no_user = 0 } } else { gpu_str = $(NF-1); cpu_str = $NF; user = ""; no_user = 1 }; gsub("%", "", gpu_str); gsub("%", "", cpu_str); gpu = gpu_str + 0; cpu = cpu_str + 0; print node, no_user, gpu, cpu, user }' | sort -k2,2nr -k3,3n -k4,4n | head -n1)
     
     if [ -z "$best_node" ]; then
         echo "Cannot jump: failed to select best node (node parsing failed)"
@@ -108,11 +62,3 @@ jump_venus() {
     ssh "$node_name"
 }
 alias vjump="jump_venus"
-
-# If you want this to run when bashrc is loaded, add the following code:
-# (Warning: This will cause each new shell to automatically login to a venus node, use with caution!)
-# jump_venus
-
-# The most common usage is to enter jump_venus or vjump manually.
-
-jump_venus
