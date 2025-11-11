@@ -11,7 +11,7 @@ This tool is designed specifically for **UTS (University of Technology Sydney) R
 
 ### Disclaimer
 - This is an **unofficial tool** created to improve workflow efficiency on UTS iHPC
-- Users **MUST comply with all [UTS iHPC usage policies and guidelines](https://www.uts.edu.au/research-and-teaching/our-research/research-facilities/high-performance-computing)**
+- Users **MUST comply with all [UTS iHPC usage policies and guidelines](https://ihpc.research.uts.edu.au/clusters/)**
 - By using this tool, you agree to:
   - Follow all iHPC resource allocation policies
   - Respect fair-share computing principles
@@ -331,8 +331,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## Support & Contact
 
 For iHPC-related issues, please contact:
-- **UTS iHPC Support**: [its.support@uts.edu.au](mailto:its.support@uts.edu.au)
-- **iHPC Documentation**: [UTS Research Computing](https://www.uts.edu.au/research-and-teaching/our-research/research-facilities/high-performance-computing)
+- **UTS iHPC Support**: [Service Connect](https://utsprodesm.service-now.com/serviceconnect?id=sc_cat_item&sys_id=be823fde8744f15086ffa7170cbb3535)
+- **iHPC Documentation**: [UTS Research Computing](https://ihpc.research.uts.edu.au/help/documentation-rhel-810/)
 
 For issues with this script, please open an issue on GitHub.
 
@@ -346,7 +346,6 @@ Thanks to UTS iHPC team for providing excellent computing infrastructure for res
 
 The UTS Institute for High Performance Computing (iHPC) provides high-performance computing resources to support cutting-edge research across various disciplines. The facility includes multiple compute nodes with GPU acceleration capabilities, designed to handle computationally intensive tasks.
 
-**Learn more**: [UTS Research Facilities](https://www.uts.edu.au/research-and-teaching/our-research/research-facilities)
 
 ---
 
